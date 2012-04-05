@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Projet</title>
+		<script type="text/javascript" src="js/jquery1.7.1.min.js"></script>
+		<style type="text/css">
+			* { margin:0;padding:0; }
+			h1 {
+				margin:20px 0;
+			}
+			#rendu {
+				margin:50px 0;
+			}
+			ul {
+				overflow:hidden;
+				border:1px red solid;
+			}
+			input {
+				padding:5px 5px;
+			}
+			li {
+				float:left;
+				list-style-type:none;
+				border:1px blue solid;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Flemme de l'int&eacute;grateur : convertir des px en % selon largeur du parent</h1>
+		<!--
+			input.partie#partie_N
+			ul.apercu
+				li#partie_N
+		-->
+		<input id="total" placeholder="Largeur du parent" /><br /><br />
+		<div class="liste_parties">
+			<!--<input class="partie" name="partie_0" value="20" placeholder="Largeur d'un des child" /><br />
+			<input class="partie" name="partie_1" value="30" placeholder="Largeur d'un des child" /><br />
+			<input class="partie" name="partie_2" value="40" placeholder="Largeur d'un des child" /><br />-->
+		</div>
+		<div id="rendu"><ul class="apercu"></ul></div>
+
+
+		<script type="text/javascript">
+
+			jQuery(document).ready(function() {
+				// Pour chaque .partie
+				$(".partie").each(function(i, elem) {
+					// On récupère sa value (en px)
+					var px = $(this).val();
+					// On la transforme en %
+					var prct = px * $("#total").val() / 100;
+					// On l'ajoute au <ul>
+					$(".apercu").append("<li id='partie_"+i+"'>Pouet</li>");
+				});
+			});
+
+			// Quand on change la valeur du #total
+			jQuery("#total").change(function () {
+				// On récupère sa valeur
+				var pxTotal = $(this).val();
+				// On change la taille du <ul> qui englobe les li
+				$(".apercu").css('width',pxTotal);
+				// S'il n'y a pas de .partie
+				if ($(".partie").length == 0) {
+					// On créé le premier input
+					$(".liste_parties").append("<br /><input class='partie' name='partie_0' value='30' placeholder='Largeur d\'un des child' />");
+					// On ajoute le premier <li>
+					$(".apercu").append("<li id='partie_0'>Pouet</li>");
+					// On ajoute le bouton d'ajout d'input
+					$(".liste_parties").after('<br /><br /><input type="button" id="add" value="Ajouter un input" />');
+				}
+			});
+
+			// Pour chaque .partie dont la valeur change
+			jQuery(".partie").live('change', function () {
+				var elem = $(this),
+				// On récupère l'attr name de ce qu'on est en train de changer
+				partieID = elem.attr("name");
+				// On récupère sa valeur
+				partieVAL = elem.val();
+				// On change dans le ul sa taille
+				$(".apercu #" + partieID).css("width",partieVAL);
+			});
+
+			// Quand on clique sur le bouton "ajouter"
+			jQuery("#add").live('click', function() {
+				// On récupère le nombre de .partie
+				var totalPartie = $(".partie").length;
+				// On ajoute un input à configurer
+				$(".liste_parties").append("<br /><input class='partie' name='partie_"+totalPartie+"' value='20' placeholder='test' /><br />");
+				// On ajoute un <li> dans la liste de l'apercu
+				$(".apercu").append("<li id='partie_"+totalPartie+"'>Pouet</li>");
+			});
+		</script>
+	</body>
+</html>
