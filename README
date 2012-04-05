@@ -1,9 +1,16 @@
 Outil simple de convertion de colonnes en pixels présentes dans un PSD vers des colonnes en pourcentage + aperçu
 
 TODO
-======
 	- Mettre un design
 	- Ergonomiser un peu
 	- Ecrire dans l'apercu les différentes données converties
+	- Convertir le code
 	- Moar to come
-	
+
+POURQUOI ?
+	- Apprendre gentiment jQuery
+	- M'éviter de faire des erreurs bêtes de calcul
+	- Partager un code sur-commenté, ça pourra servir
+	- Il faut bien commencer par quelque part :)
+	- Me mettre gentiment à Sublime Text v2
+
