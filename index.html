@@ -3,28 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<title>Projet</title>
-		<script type="text/javascript" src="js/jquery1.7.1.min.js"></script>
-		<style type="text/css">
-			* { margin:0;padding:0; }
-			h1 {
-				margin:20px 0;
-			}
-			#rendu {
-				margin:50px 0;
-			}
-			ul {
-				overflow:hidden;
-				border:1px red solid;
-			}
-			input {
-				padding:5px 5px;
-			}
-			li {
-				float:left;
-				height:200px;
-				list-style-type:none;
-			}
-		</style>
+		<link type="text/css" rel="stylesheet" href="css/style.css" />
 	</head>
 	<body>
 		<h1>Flemme de l'int&eacute;grateur : convertir des px en % selon largeur du parent</h1>
@@ -42,90 +21,8 @@
 		</div>
 		<div id="rendu"><ul class="apercu"></ul></div>
 
-
-		<script type="text/javascript">
-
-			// Write into "ul.apercu li" differents informations we need (width in pixels & %) 
-			// Data must contain the name of the input we're modifiying (String "partie_0")
-			function lewrite (data) {
-				// Witch input is that ?
-				dataInput = $("input[name="+data+"]").val(),
-
-				// dataInput associed with with "ul.apercu li" ?
-				dataPartie = $("#"+data);
-				
-				// Now we can write what we want
-				$(dataPartie).html(dataInput+"px<br />"+px2prct(dataInput)+"%");
-			}
-
-			// Function that show us how many space we have left on .apercu
-			function widthLeft () {
-				var partieWidth = 0;
-				var parentWidth = $(".apercu").width();
-				// for each li into .apercu
-				jQuery(".apercu li").each(function (i, elem) {
-					// Adding elem.width()'s value into var
-					partieWidth += $(elem).width();
-				});
-				// returning. Not into the future.
-				return parentWidth - partieWidth;
-			}
-
-			// Function that allow me to put a random background-color on my li.partie
-			function randomBgc () {
-				// IV my people
-				colorz = new Array ("aqua", "blue", "fuchsia", "gray", "grey", "green", "lime", "maroon", "navy", "olive", "purple", "red", "silver", "teal", "white", "yellow");
-				// Random number seen on http://www.javascriptkit.com/javatutors/randomnum.shtml
-				return colorz[Math.floor(Math.random()*colorz.length+1)];
-			}
-
-			// Most important function : dat convertor
-			function px2prct (data) {
-				var prct = 0,
-					prct = data / $("#total").val() * 100;
-				return Math.round(prct*100)/100;
-			}
-
-			// Quand on change la valeur du #total
-			jQuery("#total").change(function () {
-				// On récupère sa valeur
-				var pxTotal = $(this).val();
-				// On change la taille du <ul> qui englobe les li
-				$(".apercu").css('width',pxTotal);
-				// S'il n'y a pas de .partie
-				if ($(".partie").length == 0) {
-					// On créé le premier input
-					$(".liste_parties").append("<br /><input class='partie' name='partie_0' value='30' placeholder='Largeur d\'un des child' />");
-					// On ajoute le premier <li>
-					$(".apercu").append("<li style='background-color:"+randomBgc()+"' id='partie_0'>Pouet</li>");
-					lewrite("partie_0")
-					// On ajoute le bouton d'ajout d'input
-					$(".liste_parties").after('<br /><br /><input type="button" id="add" value="Ajouter un input" />');
-				}
-			});
-
-			// Pour chaque .partie dont la valeur change
-			jQuery(".partie").live('change', function () {
-				var elem = $(this),
-				// On récupère l'attr name de ce qu'on est en train de changer
-				partieID = elem.attr("name");
-				// On récupère sa valeur
-				partieVAL = elem.val();
-				// On change dans le ul sa taille
-				lewrite(partieID);
-				$(".apercu #" + partieID).css("width",partieVAL);
-			});
-
-			// Quand on clique sur le bouton "ajouter"
-			jQuery("#add").live('click', function() {
-				// On récupère le nombre de .partie
-				var totalPartie = $(".partie").length;
-				// On ajoute un input à configurer
-				$(".liste_parties").append("<br /><input class='partie' name='partie_"+totalPartie+"' value='20' placeholder='test' /><br />");
-				// On ajoute un <li> dans la liste de l'apercu
-				$(".apercu").append("<li style='background-color:"+randomBgc()+"' id='partie_"+totalPartie+"'>Pouet</li>");
-			});
-
-		</script>
+		<script type="text/javascript" src="js/jquery1.7.1.min.js"></script>
+		<script type="text/javascript" src="js/functions.js"></script>
+		<script type="text/javascript" src="js/events.js"></script>
 	</body>
 </html>
