@@ -21,6 +21,7 @@
 			}
 			li {
 				float:left;
+				height:200px;
 				list-style-type:none;
 			}
 		</style>
@@ -28,7 +29,8 @@
 	<body>
 		<h1>Flemme de l'int&eacute;grateur : convertir des px en % selon largeur du parent</h1>
 		<!--
-			input.partie#partie_N
+			input.partie[name=partie_N]
+
 			ul.apercu
 				li#partie_N
 		-->
@@ -42,6 +44,19 @@
 
 
 		<script type="text/javascript">
+
+			// Write into "ul.apercu li" differents informations we need (width in pixels & %) 
+			// Data must contain the name of the input we're modifiying (String "partie_0")
+			function lewrite (data) {
+				// Witch input is that ?
+				dataInput = $("input[name="+data+"]").val(),
+
+				// dataInput associed with with "ul.apercu li" ?
+				dataPartie = $("#"+data);
+				
+				// Now we can write what we want
+				$(dataPartie).html(dataInput+"px<br />"+px2prct(dataInput)+"%");
+			}
 
 			// Function that show us how many space we have left on .apercu
 			function widthLeft () {
@@ -64,19 +79,12 @@
 				return colorz[Math.floor(Math.random()*colorz.length+1)];
 			}
 
-
-
-			jQuery(document).ready(function() {
-				// Pour chaque .partie
-				$(".partie").each(function(i, elem) {
-					// On récupère sa value (en px)
-					var px = $(this).val();
-					// On la transforme en %
-					var prct = px * $("#total").val() / 100;
-					// On l'ajoute au <ul>
-					$(".apercu").append("<li id='partie_"+i+"'>Pouet</li>");
-				});
-			});
+			// Most important function : dat convertor
+			function px2prct (data) {
+				var prct = 0,
+					prct = data / $("#total").val() * 100;
+				return Math.round(prct*100)/100;
+			}
 
 			// Quand on change la valeur du #total
 			jQuery("#total").change(function () {
@@ -90,6 +98,7 @@
 					$(".liste_parties").append("<br /><input class='partie' name='partie_0' value='30' placeholder='Largeur d\'un des child' />");
 					// On ajoute le premier <li>
 					$(".apercu").append("<li style='background-color:"+randomBgc()+"' id='partie_0'>Pouet</li>");
+					lewrite("partie_0")
 					// On ajoute le bouton d'ajout d'input
 					$(".liste_parties").after('<br /><br /><input type="button" id="add" value="Ajouter un input" />');
 				}
@@ -103,6 +112,7 @@
 				// On récupère sa valeur
 				partieVAL = elem.val();
 				// On change dans le ul sa taille
+				lewrite(partieID);
 				$(".apercu #" + partieID).css("width",partieVAL);
 			});
 
