@@ -22,7 +22,6 @@
 			li {
 				float:left;
 				list-style-type:none;
-				border:1px blue solid;
 			}
 		</style>
 	</head>
@@ -43,6 +42,29 @@
 
 
 		<script type="text/javascript">
+
+			// Function that show us how many space we have left on .apercu
+			function widthLeft () {
+				var partieWidth = 0;
+				var parentWidth = $(".apercu").width();
+				// for each li into .apercu
+				jQuery(".apercu li").each(function (i, elem) {
+					// Adding elem.width()'s value into var
+					partieWidth += $(elem).width();
+				});
+				// returning. Not into the future.
+				return parentWidth - partieWidth;
+			}
+
+			// Function that allow me to put a random background-color on my li.partie
+			function randomBgc () {
+				// IV my people
+				colorz = new Array ("aqua", "blue", "fuchsia", "gray", "grey", "green", "lime", "maroon", "navy", "olive", "purple", "red", "silver", "teal", "white", "yellow");
+				// Random number seen on http://www.javascriptkit.com/javatutors/randomnum.shtml
+				return colorz[Math.floor(Math.random()*colorz.length+1)];
+			}
+
+
 
 			jQuery(document).ready(function() {
 				// Pour chaque .partie
@@ -67,7 +89,7 @@
 					// On créé le premier input
 					$(".liste_parties").append("<br /><input class='partie' name='partie_0' value='30' placeholder='Largeur d\'un des child' />");
 					// On ajoute le premier <li>
-					$(".apercu").append("<li id='partie_0'>Pouet</li>");
+					$(".apercu").append("<li style='background-color:"+randomBgc()+"' id='partie_0'>Pouet</li>");
 					// On ajoute le bouton d'ajout d'input
 					$(".liste_parties").after('<br /><br /><input type="button" id="add" value="Ajouter un input" />');
 				}
@@ -91,21 +113,8 @@
 				// On ajoute un input à configurer
 				$(".liste_parties").append("<br /><input class='partie' name='partie_"+totalPartie+"' value='20' placeholder='test' /><br />");
 				// On ajoute un <li> dans la liste de l'apercu
-				$(".apercu").append("<li id='partie_"+totalPartie+"'>Pouet</li>");
+				$(".apercu").append("<li style='background-color:"+randomBgc()+"' id='partie_"+totalPartie+"'>Pouet</li>");
 			});
-
-			// Function that show us how many space we have left on .apercu
-			function widthLeft () {
-				var partieWidth = 0;
-				var parentWidth = $(".apercu").width();
-				// for each li into .apercu
-				jQuery(".apercu li").each(function (i, elem) {
-					// Adding elem.width()'s value into var
-					partieWidth += $(elem).width();
-				});
-				// returning. Not into the future.
-				return parentWidth - partieWidth;
-			}
 
 		</script>
 	</body>
